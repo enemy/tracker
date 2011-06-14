@@ -120,7 +120,7 @@ function onReceivePosition(position) {
 
 function startTracking() {
     Tracker.tracking.intervalHandle = setInterval(function() {
-        var time_now = Math.round(new Date().getTime() / 1000), // returns the number of seconds since the epoch
+        var time_now = Math.round(new Date().getTime() / 1000); // returns the number of seconds since the epoch
 
         Ti.API.info("setting currently best to actual entries");
         var current_best_entry = JSON.parse(Ti.App.Properties.getString("currentlyBestEntry"));
