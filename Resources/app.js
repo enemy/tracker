@@ -1,5 +1,9 @@
 Ti.App.Properties.setList("entries", []);
-Ti.App.Properties.setString('bestEntryDefaultValue', JSON.stringify({coordinates: {accuracy: 9999}}));
+Ti.App.Properties.setString('bestEntryDefaultValue', JSON.stringify({
+    coordinates: {
+        accuracy: 9999
+    }
+}));
 Ti.App.Properties.setString("currentlyBestEntry", Ti.App.Properties.getString("bestEntryDefaultValue"));
 
 var service;

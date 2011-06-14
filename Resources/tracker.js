@@ -104,13 +104,12 @@ function onReceivePosition(position) {
         		latitudeDelta:0.01, longitudeDelta:0.01
         	});
         	var currentlyBestEntry = {
-        		created_at: Math.round(new Date().getTime() / 1000), // returns the number of seconds since the epoch
         		coordinates: position.coords
         	};
 
         	Ti.App.Properties.setString("currentlyBestEntry", JSON.stringify(currentlyBestEntry));
 
-        	Titanium.API.info("maed new entry! Entry was: " + currentlyBestEntry);
+        	Titanium.API.info("maed new entry! Entry accuracy was: " + currentlyBestEntry.coordinates.accuracy);
     	} else {
     	    Ti.API.info("new best entry was worse than last best entry. last best accuracy: " + lastBestEntry.coordinates.accuracy);
     	};
@@ -121,15 +120,18 @@ function onReceivePosition(position) {
 
 function startTracking() {
     Tracker.tracking.intervalHandle = setInterval(function() {
-         Ti.API.info("setting currently best to actual entries");
-         var current_best_entry = JSON.parse(Ti.App.Properties.getString("currentlyBestEntry"));
-         var current_entries = Ti.App.Properties.getList("entries");
+        var time_now = Math.round(new Date().getTime() / 1000), // returns the number of seconds since the epoch
 
-         current_entries.push(current_best_entry);
+        Ti.API.info("setting currently best to actual entries");
+        var current_best_entry = JSON.parse(Ti.App.Properties.getString("currentlyBestEntry"));
+        var current_entries = Ti.App.Properties.getList("entries");
 
-         Ti.App.Properties.setList("entries", current_entries);
+        current_best_entry.created_at = time_now;
+        current_entries.push(current_best_entry);
 
-         Ti.App.Properties.setString("currentlyBestEntry", Ti.App.Properties.getString("bestEntryDefaultValue"));
+        Ti.App.Properties.setList("entries", current_entries);
+
+        Ti.App.Properties.setString("currentlyBestEntry", Ti.App.Properties.getString("bestEntryDefaultValue"));
     }, Tracker.settings.selectionInterval);
 }
 
