@@ -86,26 +86,34 @@ function onReceivePosition(position) {
 	Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_NEAREST_TEN_METERS;
 
 	if (position.success == false) {
+	    Ti.API.info("position was not successful");
 		return null;
 	};
 
     label3.text = "acc: " + position.coords.accuracy + "\nspeed: " + position.coords.speed + "\nlat: " + position.coords.latitude + "\nlon:" + position.coords.longitude;
 
 	if (position.coords.accuracy > Tracker.settings.minimumAccuracyToAccept) {
+	    Ti.API.info("position was not accurate enough. Accuracy was: " + position.coords.accuracy);
 		return null;
 	} else {
-    	Tracker.views.mapView.setLocation({
-    		latitude: position.coords.latitude, longitude: position.coords.longitude,
-    		latitudeDelta:0.01, longitudeDelta:0.01
-    	});
-    	var currentlyBestEntry = {
-    		created_at: Math.round(new Date().getTime() / 1000), // returns the number of seconds since the epoch
-    		coordinates: position.coords
+	    Ti.API.info("new accuracy is: " + position.coords.accuracy );
+	    var lastBestEntry = JSON.parse(Ti.App.Properties.getString("currentlyBestEntry"));
+	    if(position.coords.accuracy < lastBestEntry.coordinates.accuracy) {
+        	Tracker.views.mapView.setLocation({
+        		latitude: position.coords.latitude, longitude: position.coords.longitude,
+        		latitudeDelta:0.01, longitudeDelta:0.01
+        	});
+        	var currentlyBestEntry = {
+        		created_at: Math.round(new Date().getTime() / 1000), // returns the number of seconds since the epoch
+        		coordinates: position.coords
+        	};
+
+        	Ti.App.Properties.setString("currentlyBestEntry", JSON.stringify(currentlyBestEntry));
+
+        	Titanium.API.info("maed new entry! Entry was: " + currentlyBestEntry);
+    	} else {
+    	    Ti.API.info("new best entry was worse than last best entry. last best accuracy: " + lastBestEntry.coordinates.accuracy);
     	};
-
-    	Ti.App.Properties.setString("currentlyBestEntry", JSON.stringify(currentlyBestEntry));
-
-    	Titanium.API.info("maed new entry!");
 	};
 
     label2.text = "tracked " + Ti.App.Properties.getList("entries").length + "points so far";
@@ -120,6 +128,8 @@ function startTracking() {
          current_entries.push(current_best_entry);
 
          Ti.App.Properties.setList("entries", current_entries);
+
+         Ti.App.Properties.setString("currentlyBestEntry", Ti.App.Properties.getString("bestEntryDefaultValue"));
     }, Tracker.settings.selectionInterval);
 }
 

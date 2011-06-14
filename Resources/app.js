@@ -1,5 +1,6 @@
 Ti.App.Properties.setList("entries", []);
-Ti.App.Properties.setString("currentlyBestEntry", JSON.stringify(""));
+Ti.App.Properties.setString('bestEntryDefaultValue', JSON.stringify({coordinates: {accuracy: 9999}}));
+Ti.App.Properties.setString("currentlyBestEntry", Ti.App.Properties.getString("bestEntryDefaultValue"));
 
 var service;
 
@@ -77,7 +78,7 @@ var resendbutton = Titanium.UI.createButton({
 });
 
 var sliderLabel = Ti.UI.createLabel({
-	text: 'interval: ' + ( Tracker.settings.interval / 1000 ) + "         accuracy: " + Tracker.settings.minimumAccuracyToAccept,
+	text: 'interval: ' + ( Tracker.settings.selectionInterval / 1000 ) + "         accuracy: " + Tracker.settings.minimumAccuracyToAccept,
 	height: 'auto',
 	top: 300
 });
@@ -95,7 +96,7 @@ intervalSlider.addEventListener('change', function(e) {
 	var intervalSeconds = Math.floor(e.value);
 	Tracker.settings.selectionInterval = intervalSeconds * 1000;
 
-	sliderLabel.text = 'interval: ' + ( Tracker.settings.interval / 1000 ) + "         accuracy: " + Tracker.settings.minimumAccuracyToAccept;
+	sliderLabel.text = 'interval: ' + ( Tracker.settings.selectionInterval / 1000 ) + "         accuracy: " + Tracker.settings.minimumAccuracyToAccept;
 });
 
 
@@ -112,7 +113,7 @@ accuracySlider.addEventListener('change', function(e) {
 	var accuracyMeters = Math.floor(e.value);
 	Tracker.settings.minimumAccuracyToAccept = accuracyMeters;
 
-	sliderLabel.text = 'interval: ' + ( Tracker.settings.interval / 1000 ) + "         accuracy: " + Tracker.settings.minimumAccuracyToAccept;
+	sliderLabel.text = 'interval: ' + ( Tracker.settings.selectionInterval / 1000 ) + "         accuracy: " + Tracker.settings.minimumAccuracyToAccept;
 });
 
 function registerTrackerService(e) {
@@ -237,7 +238,7 @@ var tab2 = Titanium.UI.createTab({
     window:win2
 });
 
-var label2 = Titanium.UI.createLabel({
+var label22 = Titanium.UI.createLabel({
 	color:'#999',
 	text:'I am Window 2',
 	font:{fontSize:20,fontFamily:'Helvetica Neue'},
@@ -245,7 +246,7 @@ var label2 = Titanium.UI.createLabel({
 	width:'auto'
 });
 
-win2.add(label2);
+win2.add(label22);
 
 
 
