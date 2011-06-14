@@ -93,7 +93,7 @@ var intervalSlider = Ti.UI.createSlider({
 
 intervalSlider.addEventListener('change', function(e) {
 	var intervalSeconds = Math.floor(e.value);
-	Tracker.settings.interval = intervalSeconds * 1000;
+	Tracker.settings.selectionInterval = intervalSeconds * 1000;
 
 	sliderLabel.text = 'interval: ' + ( Tracker.settings.interval / 1000 ) + "         accuracy: " + Tracker.settings.minimumAccuracyToAccept;
 });

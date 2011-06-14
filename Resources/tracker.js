@@ -1,7 +1,7 @@
 var Tracker = {
 	settings: {
 		apiUrl: "http://imightbeaniceuser:ireallyamaniceuser@reittiproto-backend-enemyfi.heroku.com/routes",
-		selectionInterval: 10000,
+		selectionInterval: 5000,
 		distanceFilter: 10,
 		minimumAccuracyToAccept: 300
 	},
@@ -108,7 +108,7 @@ function onReceivePosition(position) {
     	Titanium.API.info("maed new entry!");
 	};
 
-    label2.text = "tracked " + Tracker.tracking.entries.length + "points so far";
+    label2.text = "tracked " + Ti.App.Properties.getList("entries").length + "points so far";
 }
 
 function startTracking() {
