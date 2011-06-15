@@ -34,6 +34,14 @@ Tracker.backend = {
 
 		this.httpClient.onload = function() {
 			alert("Sent successfully");
+			// Deletes previous entries, also set in app.js at first start
+			Ti.App.Properties.setList("entries", []);
+			Ti.App.Properties.setString('bestEntryDefaultValue', JSON.stringify({
+			    coordinates: {
+			        accuracy: 9999
+			    }
+			}));
+			Ti.App.Properties.setString("currentlyBestEntry", Ti.App.Properties.getString("bestEntryDefaultValue"));
 		};
 
 		this.httpClient.onerror = function() {
@@ -119,17 +127,7 @@ function onReceivePosition(position) {
 }
 
 function startTracking() {
-	
-	// Deletes previous entries, also set in app.js at first start
-	Ti.App.Properties.setList("entries", []);
-	Ti.App.Properties.setString('bestEntryDefaultValue', JSON.stringify({
-	    coordinates: {
-	        accuracy: 9999
-	    }
-	}));
-	Ti.App.Properties.setString("currentlyBestEntry", Ti.App.Properties.getString("bestEntryDefaultValue"));
-
-		
+			
     Tracker.tracking.intervalHandle = setInterval(function() {
         var time_now = Math.round(new Date().getTime() / 1000); // returns the number of seconds since the epoch
 

@@ -1,5 +1,5 @@
 
-// ALSO IN TRACKER!!!
+// ALSO IN TRACKER!!!§
 Ti.App.Properties.setList("entries", []);
 Ti.App.Properties.setString('bestEntryDefaultValue', JSON.stringify({
     coordinates: {
