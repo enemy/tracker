@@ -1,3 +1,5 @@
+
+// ALSO IN TRACKER!!!
 Ti.App.Properties.setList("entries", []);
 Ti.App.Properties.setString('bestEntryDefaultValue', JSON.stringify({
     coordinates: {
@@ -5,6 +7,8 @@ Ti.App.Properties.setString('bestEntryDefaultValue', JSON.stringify({
     }
 }));
 Ti.App.Properties.setString("currentlyBestEntry", Ti.App.Properties.getString("bestEntryDefaultValue"));
+
+
 
 var service;
 
@@ -106,8 +110,8 @@ intervalSlider.addEventListener('change', function(e) {
 
 var accuracySlider = Ti.UI.createSlider({
     value: 100,
-    min: 50,
-    max: 800,
+    min: 6,
+    max: 300,
     left: 165,
 	width: 145,
 	top:320

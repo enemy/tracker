@@ -3,7 +3,7 @@ var Tracker = {
 		apiUrl: "http://imightbeaniceuser:ireallyamaniceuser@reittiproto-backend-enemyfi.heroku.com/routes",
 		selectionInterval: 5000,
 		distanceFilter: 10,
-		minimumAccuracyToAccept: 300
+		minimumAccuracyToAccept: 100
 	},
 
 	views: {
@@ -119,6 +119,17 @@ function onReceivePosition(position) {
 }
 
 function startTracking() {
+	
+	// Deletes previous entries, also set in app.js at first start
+	Ti.App.Properties.setList("entries", []);
+	Ti.App.Properties.setString('bestEntryDefaultValue', JSON.stringify({
+	    coordinates: {
+	        accuracy: 9999
+	    }
+	}));
+	Ti.App.Properties.setString("currentlyBestEntry", Ti.App.Properties.getString("bestEntryDefaultValue"));
+
+		
     Tracker.tracking.intervalHandle = setInterval(function() {
         var time_now = Math.round(new Date().getTime() / 1000); // returns the number of seconds since the epoch
 
